@@ -1,0 +1,605 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.11.2 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Defensive Ruby Coding for Amazon S3’s TestEvent - Curtis Einsmann</title>
+<meta name="description" content="Whenenever you come across the s3:TestEvent notification from Amazon Simple Storage Service (S3), it may come as an unpleasant surprise.  It depends on how you’ve written your code to parse your Amazon Simple Notification Service (SNS) notifications.  Fortunately, we can do a deep dive and illustrate how we can code defensively against these kinds of anomalies in Ruby.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Curtis Einsmann">
+<meta property="og:title" content="Defensive Ruby Coding for Amazon S3’s TestEvent">
+<meta property="og:url" content="http://localhost:4000/technical/defensive-ruby-coding-for-amazon-s3-testevent/">
+
+
+  <meta property="og:description" content="Whenenever you come across the s3:TestEvent notification from Amazon Simple Storage Service (S3), it may come as an unpleasant surprise.  It depends on how you’ve written your code to parse your Amazon Simple Notification Service (SNS) notifications.  Fortunately, we can do a deep dive and illustrate how we can code defensively against these kinds of anomalies in Ruby.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2018-06-10T09:00:00-04:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/technical/defensive-ruby-coding-for-amazon-s3-testevent/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Curtis Einsmann",
+      "url": "http://localhost:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Curtis Einsmann Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Curtis Einsmann</a>
+        <ul class="visible-links">
+          
+            
+            <li class="masthead__menu-item">
+              <a href="http://localhost:4000/posts/" >All Posts</a>
+            </li>
+          
+        </ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle Menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/my-photo.jpg" alt="Curtis Einsmann" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Curtis Einsmann</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+        Software Development Engineer at <a href='https://aws.amazon.com/'>Amazon Web Services</a>.
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Arlington, VA</span>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/curtiseinsmann" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/curtis.einsmann" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/curtis-einsmann-a6834154" itemprop="sameAs">
+            <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/curtiseinsmann" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/curtiseinsmann" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Defensive Ruby Coding for Amazon S3’s TestEvent">
+    <meta itemprop="description" content="Whenenever you come across the s3:TestEvent notification from Amazon Simple Storage Service (S3), it may come as an unpleasant surprise.  It depends on how you’ve written your code to parse your Amazon Simple Notification Service (SNS) notifications.  Fortunately, we can do a deep dive and illustrate how we can code defensively against these kinds of anomalies in Ruby.">
+    <meta itemprop="datePublished" content="June 10, 2018">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Defensive Ruby Coding for Amazon S3’s TestEvent
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Whenenever you come across the <code class="highlighter-rouge">s3:TestEvent</code> notification from <a href="https://aws.amazon.com/documentation/s3/">Amazon Simple Storage Service</a> (S3), it may come as an unpleasant surprise.  It depends on how you’ve written your code to parse your <a href="https://aws.amazon.com/documentation/sns/">Amazon Simple Notification Service</a> (SNS) notifications.  Fortunately, we can do a deep dive and illustrate how we can code defensively against these kinds of anomalies in Ruby.</p>
+
+<h3 id="initial-architecture">Initial Architecture</h3>
+
+<p>Let’s consider a system with some basic AWS architecture.  Let’s say we’ve set up an S3 bucket, called <code class="highlighter-rouge">my-s3-bucket</code>, which essentially stores files in the cloud.  S3 supports event-driven messages to be sent whenever objects (files) are uploaded to the bucket.  These event-driven messages are called SNS topics. We’ve configured the S3 bucket to publish an SNS topic, called <code class="highlighter-rouge">my-foo-sns-topic</code>, for any S3 object uploaded to <code class="highlighter-rouge">my-s3-bucket</code> under the key <code class="highlighter-rouge">foo/</code>.</p>
+
+<p>We also have an <a href="https://aws.amazon.com/documentation/sqs/">Amazon Simple Queue Service</a> (SQS) queue, <code class="highlighter-rouge">my-sqs-queue</code> which is subscribed to this SNS topic.  We’re polling this queue for messages using the AWS SDK for Ruby to download the file and do some processing on it.  This architecture is illustrated in the diagram below.</p>
+
+<p><img src="/assets/images/inital-aws-architecture.001.jpeg" alt="Initial AWS Architecture" /></p>
+
+<p>Since we’re good engineers and follow security best practices, we’ve put strict permissions on <code class="highlighter-rouge">my-sqs-queue</code>: the SNS topic <code class="highlighter-rouge">my-foo-sns-topic</code> is the only entity that can send messages to the queue.  Thus, we’re pretty confident that we’ll only be receiving predictable SNS JSON messages into <code class="highlighter-rouge">my-sqs-queue</code> that look something like this:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"Type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"MessageId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"4bb76612-bdb9-59d1-bc73-35b11721b127"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"TopicArn"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:sns:us-east-1:123123123123:FooNotificationTopic"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Subject"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Amazon S3 Notification"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Message"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">Records</span><span class="se">\"</span><span class="s2">:[{</span><span class="se">\"</span><span class="s2">eventVersion</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">2.0</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">eventSource</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">aws:s3</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">awsRegion</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">us-east-1</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">eventName</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">ObjectCreated:Put</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">requestParameters</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">responseElements</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">s3</span><span class="se">\"</span><span class="s2">:{</span><span class="se">\"</span><span class="s2">s3SchemaVersion</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">1.0</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">bucket</span><span class="se">\"</span><span class="s2">:{</span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">my-s3-bucket</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">ownerIdentity</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">arn</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">arn:aws:s3:::my-s3-bucket</span><span class="se">\"</span><span class="s2">},</span><span class="se">\"</span><span class="s2">object</span><span class="se">\"</span><span class="s2">:{</span><span class="se">\"</span><span class="s2">key</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">foo/obj.json</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">size</span><span class="se">\"</span><span class="s2">:2388}}}]}"</span><span class="p">,</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p>We want to parse the above messages to get the S3 bucket and key name, so that we can download the file from S3 and do some processing on it.  Since we’re expecting a predictable message format, we’ve written our parsing code like the following:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@sqs</span> <span class="o">=</span> <span class="no">Aws</span><span class="o">::</span><span class="no">SQS</span><span class="o">::</span><span class="no">Client</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">region: </span><span class="s1">'us-east-1'</span><span class="p">,</span> 
+  <span class="ss">credentials: </span><span class="no">Aws</span><span class="o">::</span><span class="no">Credentials</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+    <span class="n">creds</span><span class="p">[</span><span class="s1">'access_key_id'</span><span class="p">],</span> <span class="n">creds</span><span class="p">[</span><span class="s1">'secret_access_key'</span><span class="p">]</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">sqs_response</span> <span class="o">=</span> <span class="vi">@sqs</span><span class="p">.</span><span class="nf">receive_message</span><span class="p">(</span>
+  <span class="ss">queue_url: </span><span class="no">QUEUE_URL</span><span class="p">,</span>
+  <span class="ss">max_number_of_messages: </span><span class="mi">1</span><span class="p">,</span>
+  <span class="ss">visibility_timeout: </span><span class="mi">10</span><span class="p">,</span>
+  <span class="ss">wait_time_seconds: </span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">sqs_response</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">sqs_message</span><span class="o">|</span>
+  <span class="n">s3</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span>
+    <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">.</span><span class="nf">body</span><span class="p">)[</span><span class="s1">'Message'</span><span class="p">]</span>
+  <span class="p">)[</span><span class="s1">'Records'</span><span class="p">].</span><span class="nf">first</span><span class="p">[</span><span class="s1">'s3'</span><span class="p">]</span>
+
+  <span class="n">bucket</span> <span class="o">=</span> <span class="n">s3</span><span class="p">[</span><span class="s1">'bucket'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="n">s3</span><span class="p">[</span><span class="s1">'object'</span><span class="p">][</span><span class="s1">'key'</span><span class="p">]</span>
+
+  <span class="c1"># Download the object and do some processing...</span>
+
+  <span class="c1"># Delete the message after we're done with it</span>
+  <span class="vi">@sqs</span><span class="p">.</span><span class="nf">delete_message</span><span class="p">(</span>
+    <span class="ss">queue_url: </span><span class="no">QUEUE_URL</span><span class="p">,</span>
+    <span class="ss">receipt_handle: </span><span class="n">sqs_message</span><span class="p">.</span><span class="nf">receipt_handle</span>
+  <span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+<h3 id="adding-a-second-sns-topic">Adding a second SNS Topic</h3>
+
+<p>Now, let’s say we want to publish an SNS topic, not only for objects under the <code class="highlighter-rouge">foo/</code> key, but also for objects under the <code class="highlighter-rouge">bar/</code> key.  We’re likely to make these modifications in the following order:</p>
+
+<ol>
+  <li>Create a new SNS topic, called <code class="highlighter-rouge">my-bar-sns-topic</code></li>
+  <li>Subscribe <code class="highlighter-rouge">my-sqs-queue</code> to the new <code class="highlighter-rouge">my-bar-sns-topic</code></li>
+  <li>Modify the S3 bucket, <code class="highlighter-rouge">my-s3-bucket</code> to publish to <code class="highlighter-rouge">my-bar-sns-topic</code> whenever objects are uploaded under the <code class="highlighter-rouge">bar/</code> key</li>
+</ol>
+
+<p>This architecture would look to this:</p>
+
+<p><img src="/assets/images/subsequent-aws-architecture.001.jpeg" alt="Subsequent AWS Architecture" /></p>
+
+<p>Sometime after performing step 3, we notice that our Ruby code has failed, due to the following error message:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>undefined method `first' for nil:NilClass (NoMethodError)
+</code></pre></div></div>
+
+<p>We check the message that failed, and it looks like this:</p>
+
+<figure class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"Type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Notification"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"MessageId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3f9f4bea-a0df-58b4-9a44-184915e7c3da"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"TopicArn"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:sns:us-east-1:123123123123:FooNotificationTopic"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Subject"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Amazon S3 Notification"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"Message"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"{</span><span class="se">\"</span><span class="s2">Service</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Amazon S3</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">Event</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">s3:TestEvent</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">Bucket</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">my-unique-s3-bucket-name</span><span class="se">\"</span><span class="s2">}"</span><span class="p">,</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+</span><span class="p">}</span></code></pre></figure>
+
+<p><em>What?!</em>  How did this message end up in our queue?  This isn’t the message format we’ve come to know and love…</p>
+
+<h3 id="coding-against-the-s3testevent">Coding against the s3:TestEvent</h3>
+
+<p>It turns out that the <code class="highlighter-rouge">s3:TestEvent</code> is an SNS notification that is sent, whenever the notification configuration on the S3 bucket is established.  Most of the time, this test event goes unnoticed, because upon initial creation of these resources, there usually aren’t any active processors of the messages.  You’re likely to only run into the <code class="highlighter-rouge">s3:TestEvent</code> when making modifications on resources that are already consuming the data.</p>
+
+<p>As you can see from the JSON message above, the embedded JSON string for the “Message” value does not have the “Records” key.  Thus, our code fails when trying to call <code class="highlighter-rouge">['Records']</code> on a <code class="highlighter-rouge">nil</code> value.  We can utilize Ruby’s <code class="highlighter-rouge">fetch</code> method to clean our code up and avoid these errors.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vi">@sqs</span> <span class="o">=</span> <span class="no">Aws</span><span class="o">::</span><span class="no">SQS</span><span class="o">::</span><span class="no">Client</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+  <span class="ss">region: </span><span class="s1">'us-east-1'</span><span class="p">,</span> 
+  <span class="ss">credentials: </span><span class="no">Aws</span><span class="o">::</span><span class="no">Credentials</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+    <span class="n">creds</span><span class="p">[</span><span class="s1">'access_key_id'</span><span class="p">],</span> <span class="n">creds</span><span class="p">[</span><span class="s1">'secret_access_key'</span><span class="p">]</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">sqs_response</span> <span class="o">=</span> <span class="vi">@sqs</span><span class="p">.</span><span class="nf">receive_message</span><span class="p">(</span>
+  <span class="ss">queue_url: </span><span class="no">QUEUE_URL</span><span class="p">,</span>
+  <span class="ss">max_number_of_messages: </span><span class="mi">1</span><span class="p">,</span>
+  <span class="ss">visibility_timeout: </span><span class="mi">10</span><span class="p">,</span>
+  <span class="ss">wait_time_seconds: </span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">delete_sqs_message</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">)</span>
+  <span class="vi">@sqs</span><span class="p">.</span><span class="nf">delete_message</span><span class="p">(</span>
+    <span class="ss">queue_url: </span><span class="no">QUEUE_URL</span><span class="p">,</span>
+    <span class="ss">receipt_handle: </span><span class="n">sqs_message</span><span class="p">.</span><span class="nf">receipt_handle</span>
+  <span class="p">)</span>
+<span class="k">end</span>  
+
+<span class="n">sqs_response</span><span class="p">.</span><span class="nf">messages</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">sqs_message</span><span class="o">|</span>
+  <span class="k">unless</span> <span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">.</span><span class="nf">body</span><span class="p">).</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'Message'</span><span class="p">,</span> <span class="kp">false</span><span class="p">))</span>
+    <span class="n">delete_sqs_message</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">)</span>
+    <span class="k">next</span>
+  <span class="k">end</span>
+
+  <span class="k">unless</span> <span class="p">(</span><span class="n">records</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">message</span><span class="p">).</span><span class="nf">fetch</span><span class="p">(</span><span class="s1">'Records'</span><span class="p">,</span> <span class="kp">false</span><span class="p">))</span>
+    <span class="n">delete_sqs_message</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">)</span>
+    <span class="k">next</span>
+  <span class="k">end</span>
+
+  <span class="n">s3</span> <span class="o">=</span> <span class="n">records</span><span class="p">.</span><span class="nf">first</span><span class="p">[</span><span class="s1">'s3'</span><span class="p">]</span>
+
+  <span class="n">bucket</span> <span class="o">=</span> <span class="n">s3</span><span class="p">[</span><span class="s1">'bucket'</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span>
+  <span class="n">key</span> <span class="o">=</span> <span class="n">s3</span><span class="p">[</span><span class="s1">'object'</span><span class="p">][</span><span class="s1">'key'</span><span class="p">]</span>
+
+  <span class="c1"># Download the object and do some processing...</span>
+
+  <span class="c1"># Delete the message after we're done with it</span>
+  <span class="n">delete_sqs_message</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>I think we can all agree that the <code class="highlighter-rouge">s3:TestEvent</code> is somewhat inconvenient in these situations.  However, if we write our code defensively, we can protect ourselves from this, or other unexpected messages, in our SQS queue.  Coding defensively is a good habit to get into, especially when making calls to external dependencies.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#aws" class="page__taxonomy-item" rel="tag">aws</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#ruby" class="page__taxonomy-item" rel="tag">ruby</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#s3" class="page__taxonomy-item" rel="tag">s3</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#sns" class="page__taxonomy-item" rel="tag">sns</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#sqs" class="page__taxonomy-item" rel="tag">sqs</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#technical" class="page__taxonomy-item" rel="tag">technical</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-06-10T09:00:00-04:00">June 10, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Defensive+Ruby+Coding+for+Amazon+S3%27s+TestEvent%20http%3A%2F%2Flocalhost%3A4000%2Ftechnical%2Fdefensive-ruby-coding-for-amazon-s3-testevent%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Ftechnical%2Fdefensive-ruby-coding-for-amazon-s3-testevent%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2Flocalhost%3A4000%2Ftechnical%2Fdefensive-ruby-coding-for-amazon-s3-testevent%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Ftechnical%2Fdefensive-ruby-coding-for-amazon-s3-testevent%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/technical/defensive-ruby-coding-for-amazon-s3-testevent/" rel="permalink">Defensive Ruby Coding for Amazon S3’s TestEvent
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Whenenever you come across the s3:TestEvent notification from Amazon Simple Storage Service (S3), it may come as an unpleasant surprise.  It depends on how y...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+</div>
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+    
+    
+      <li><a href="https://github.com/curtiseinsmann"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Curtis Einsmann. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.12/js/all.js"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
