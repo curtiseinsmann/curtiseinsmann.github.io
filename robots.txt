@@ -1,1 +1,1 @@
-Sitemap: https://curtiseinsmann.github.io/sitemap.xml
+Sitemap: https://curtiseinsmann.com/sitemap.xml

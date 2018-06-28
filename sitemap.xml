@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://curtiseinsmann.github.io/technical/defensive-ruby-coding-for-amazon-s3-testevent/</loc>
+<loc>https://curtiseinsmann.com/technical/defensive-ruby-against-amazon-s3-testevent/</loc>
 <lastmod>2018-06-23T09:00:00-04:00</lastmod>
 </url>
 <url>
-<loc>https://curtiseinsmann.github.io/404/</loc>
+<loc>https://curtiseinsmann.com/404/</loc>
 </url>
 <url>
-<loc>https://curtiseinsmann.github.io/posts/</loc>
+<loc>https://curtiseinsmann.com/posts/</loc>
 </url>
 <url>
-<loc>https://curtiseinsmann.github.io/tags/</loc>
+<loc>https://curtiseinsmann.com/tags/</loc>
 </url>
 <url>
-<loc>https://curtiseinsmann.github.io/categories/</loc>
+<loc>https://curtiseinsmann.com/categories/</loc>
 </url>
 <url>
-<loc>https://curtiseinsmann.github.io/</loc>
+<loc>https://curtiseinsmann.com/</loc>
 </url>
 </urlset>
