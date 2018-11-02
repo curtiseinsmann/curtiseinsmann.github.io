@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Defensive Ruby Against Amazon S3’s TestEvent - Curtis Einsmann</title>
-<meta name="description" content="The s3:TestEvent notification from Amazon S3 may come as an unpleasant surprise.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
+<meta name="description" content="The s3:TestEvent notifications from Amazon S3 can be pretty useful to ensure that your notifications are correctly configured.  However, there are certain instances in which a lack of defensive coding can get you into trouble.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://curtiseinsmann.com/technical/defensive-ruby-against-amazon-s3-testevent/">
 
 
-  <meta property="og:description" content="The s3:TestEvent notification from Amazon S3 may come as an unpleasant surprise.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
+  <meta property="og:description" content="The s3:TestEvent notifications from Amazon S3 can be pretty useful to ensure that your notifications are correctly configured.  However, there are certain instances in which a lack of defensive coding can get you into trouble.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
 
 
 
@@ -164,7 +164,7 @@
     
     
       <p class="author__bio" itemprop="description">
-        Software Development Engineer at <a href='https://aws.amazon.com/'>Amazon Web Services</a>.
+        Software Development Engineer at <a href='https://aws.amazon.com/'>Amazon Web Services</a>.  Blog opinions are my own.
       </p>
     
   </div>
@@ -275,7 +275,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Defensive Ruby Against Amazon S3’s TestEvent">
-    <meta itemprop="description" content="The s3:TestEvent notification from Amazon S3 may come as an unpleasant surprise.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
+    <meta itemprop="description" content="The s3:TestEvent notifications from Amazon S3 can be pretty useful to ensure that your notifications are correctly configured.  However, there are certain instances in which a lack of defensive coding can get you into trouble.  It depends on how you’ve written code to parse your Amazon SNS notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.">
     <meta itemprop="datePublished" content="June 23, 2018">
     
 
@@ -290,7 +290,7 @@
 
 
 
-  3 minute read
+  4 minute read
 </p>
           
         </header>
@@ -298,7 +298,7 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>The <code class="highlighter-rouge">s3:TestEvent</code> notification from <a href="https://aws.amazon.com/documentation/s3/">Amazon S3</a> may come as an unpleasant surprise.  It depends on how you’ve written code to parse your <a href="https://aws.amazon.com/documentation/sns/">Amazon SNS</a> notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.</p>
+        <p>The <code class="highlighter-rouge">s3:TestEvent</code> notifications from <a href="https://aws.amazon.com/documentation/s3/">Amazon S3</a> can be pretty useful to ensure that your notifications are correctly configured.  However, there are certain instances in which a lack of defensive coding can get you into trouble.  It depends on how you’ve written code to parse your <a href="https://aws.amazon.com/documentation/sns/">Amazon SNS</a> notifications.  In this post, we’ll do a deep dive into how we can code defensively against these kinds of anomalies in Ruby.</p>
 
 <h3 id="initial-architecture">Initial Architecture</h3>
 
@@ -392,7 +392,7 @@
 
 <h3 id="coding-against-the-s3testevent">Coding against the s3:TestEvent</h3>
 
-<p>It turns out that the <code class="highlighter-rouge">s3:TestEvent</code> is an SNS notification that is sent whenever the notification configuration on the S3 bucket is established.  Most of the time, this test event goes unnoticed, because upon initial creation of these resources, there usually aren’t any active processors of the messages.  You’re likely to only run into the <code class="highlighter-rouge">s3:TestEvent</code> when making modifications on resources that are already consuming the data.</p>
+<p>What we’ve come across here is the <code class="highlighter-rouge">s3:TestEvent</code>.  It’s an SNS notification that is sent whenever the notification configuration on the S3 bucket is established.  Most of the time, this test event goes unnoticed, because upon initial creation of these resources, there usually aren’t any active processors of the messages.  You’re likely to only run into the <code class="highlighter-rouge">s3:TestEvent</code> when making modifications on resources that are already consuming the data.</p>
 
 <p>As you can see from the JSON message above, the embedded JSON string for the “Message” value does not have the “Records” key.  Thus, our code fails when trying to call <code class="highlighter-rouge">['Records']</code> on a <code class="highlighter-rouge">nil</code> value.  We can utilize <a href="https://docs.ruby-lang.org/en/2.3.0/Hash.html#method-i-fetch">Ruby’s <code class="highlighter-rouge">fetch</code> method</a> to clean our code up and avoid these errors (I’ve left out the intialization and <code class="highlighter-rouge">receive_message</code> blocks).</p>
 
@@ -425,7 +425,7 @@
   <span class="n">delete_sqs_message</span><span class="p">(</span><span class="n">sqs_message</span><span class="p">)</span>
 <span class="k">end</span></code></pre></figure>
 
-<p>I think we can all agree that the <code class="highlighter-rouge">s3:TestEvent</code> is somewhat inconvenient in these situations.  However, if we write our code defensively, we can protect ourselves from this, or other unexpected messages, in our SQS queue.  Coding defensively is a good habit to get into, especially when making calls to external dependencies.</p>
+<p>It can be argued that the <code class="highlighter-rouge">s3:TestEvent</code> is somewhat inconvenient in these situations.  However, as an engineer, it’s good to get into the habit of filtering out data that is in an unexpected format.  This is particularly the case when receiving data from any kind of external dependency, whether that dependency is SQS or any other type of resource in the cloud.   If we write our code defensively, we can protect ourselves from this, or other unexpected messages, in our SQS queue.</p>
 
 
         
@@ -541,10 +541,10 @@
 
 
 
-  3 minute read
+  4 minute read
 </p>
     
-    <p class="archive__item-excerpt" itemprop="description">The s3:TestEvent notification from Amazon S3 may come as an unpleasant surprise.  It depends on how you’ve written code to parse your Amazon SNS notification...</p>
+    <p class="archive__item-excerpt" itemprop="description">The s3:TestEvent notifications from Amazon S3 can be pretty useful to ensure that your notifications are correctly configured.  However, there are certain in...</p>
   </article>
 </div>
         
