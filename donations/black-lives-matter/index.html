@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Black Lives Matter - Curtis Einsmann</title>
-<meta name="description" content="My employer, Amazon, will 100% match employee contributions to the following organizations, up to $10,000 per employee.  I am accepting donations through my personal PayPal or Venmo and will message you the receipt after I submit your donation through an Amazon internal website.">
+<meta name="description" content="">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://curtiseinsmann.com/donations/black-lives-matter/">
 
 
-  <meta property="og:description" content="My employer, Amazon, will 100% match employee contributions to the following organizations, up to $10,000 per employee.  I am accepting donations through my personal PayPal or Venmo and will message you the receipt after I submit your donation through an Amazon internal website.">
+  <meta property="og:description" content="">
 
 
 
@@ -275,7 +275,7 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Black Lives Matter">
-    <meta itemprop="description" content="My employer, Amazon, will 100% match employee contributions to the following organizations, up to $10,000 per employee.  I am accepting donations through my personal PayPal or Venmo and will message you the receipt after I submit your donation through an Amazon internal website.">
+    <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="June 10, 2020">
     
 
@@ -298,182 +298,166 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>My employer, Amazon, will 100% match employee contributions to the following organizations, up to $10,000 per employee.  I am accepting donations through my personal PayPal or Venmo and will message you the receipt after I submit your donation through an Amazon internal website.</p>
+        <script src="https://curtiseinsmann.com/assets/js/blm.js"></script>
 
-<p><strong><em>Please submit donations by 11:59pm EST on June 30, 2020.  I will send you a receipt within 72 hours of your donation.</em></strong></p>
+<p>My employer, Amazon, will 100% match employee contributions to the following organizations, up to $10,000 per employee. I am accepting donations through my personal Venmo or PayPal in an attempt to maximize this opportunity. I will message you the receipt after I submit your donation through an Amazon internal website.</p>
 
-<p>You may direct your donation to <strong><em>one</em></strong> of the following organizations, or else your donation will be distributed across <strong><em>all organizations equally</em></strong>.</p>
+<p><strong><em>Please submit donations by 11:59pm EST on June 30, 2020.  I will send you a receipt within 72 hours of your donation. Thanks for your donation!</em></strong></p>
 
-<h2 id="step-1-choose-your-organization">Step 1: Choose your organization</h2>
+<p>
+<div id="form-surrounding-section" style="padding-bottom: 20px">
+  <div id="step-0" style="height: 500px">
+    <h2>Choose your organization. Then click Next.</h2>
 
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="aclu" name="organization" value="ACLU Foundation" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.aclu.org/" target="_blank">ACLU Foundation</a>
-<label for="aclu">
-</label>
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="all">
+        <input type="radio" id="all" name="organization" value="all organizations split equally" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        <strong>All below organizations, split equally</strong>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="aclu">
+        <input type="radio" id="aclu" name="organization" value="ACLU Foundation" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+          ACLU Foundation <a href="https://www.aclu.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="blm">
+        <input type="radio" id="blm" name="organization" value="Black Lives Matter" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Black Lives Matter <a href="https://blacklivesmatter.com/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="brennancenter">
+        <input type="radio" id="brennancenter" name="organization" value="Brennan Center for Justice" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Brennan Center for Justice <a href="https://www.brennancenter.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="eji">
+        <input type="radio" id="eji" name="organization" value="Equal Justice Initiative" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Equal Justice Initiative <a href="https://eji.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="lawyerscommittee">
+        <input type="radio" id="lawyerscommittee" name="organization" value="Lawyers’ Committee for Civil Rights Under Law" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Lawyers’ Committee for Civil Rights Under Law <a href="https://www.lawyerscommittee.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="naacp">
+        <input type="radio" id="naacp" name="organization" value="NAACP" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        NAACP <a href="https://www.naacp.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="nationalbar">
+        <input type="radio" id="nationalbar" name="organization" value="National Bar Association" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        National Bar Association <a href="https://www.nationalbar.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="nmaahc">
+        <input type="radio" id="nmaahc" name="organization" value="National Museum of African American History and Culture" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        National Museum of African American History and Culture <a href="https://nmaahc.si.edu/" target="_blank">
+          link
+        </a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="nul">
+        <input type="radio" id="nul" name="organization" value="National Urban League" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        National Urban League <a href="https://nul.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="tmcf">
+        <input type="radio" id="tmcf" name="organization" value="Thurgood Marshall College Fund" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Thurgood Marshall College Fund <a href="https://www.tmcf.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="uncf">
+        <input type="radio" id="uncf" name="organization" value="UNCF (United Negro College Fund)" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        UNCF (United Negro College Fund) <a href="https://uncf.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+
+    <div style="white-space:nowrap; padding-left: 20px">
+      <label for="yearup">
+        <input type="radio" id="yearup" name="organization" value="Year Up" onclick="updateChosenOrganization(this.value);" style="display: inline" />
+        Year Up <a href="https://www.yearup.org/" target="_blank">link</a>
+      
+      </label>
+    </div>
+  </div> <!-- step-0 -->
+
+  <div id="step-1" style="display: none">
+    <h2>Enter your instagram or name (so I can send you a receipt). Then click Next.</h2>
+    <input type="text" id="insta-name" placeholder="Instagram/Name" style="width: 50%;" oninput="updateInstaSlashName(this.value);" />
+  </div>
+
+  <div id="step-2" style="display: none">
+    <h2>Click "Copy message to clipboard!" Then click Next.</h2>
+    <button onclick="copyPromptToClipboard();">Copy message to clipboard!</button> 
+    <span id="info-copied-span" style="display: none">Copied!</span>
+
+    <textarea readonly="" id="donation-prompt" rows="2" cols="50">Please send my donation to (org). Please send the receipt to instagram/name (insta).</textarea>
+  </div> <!-- step-2 -->
+
+  <div id="step-3" style="display: none">
+
+     <h2>Open <a href="https://venmo.com" target="_blank">Venmo</a> and send your donation to <strong>@Curtis-Einsmann</strong>. Use the message you've already copied to your clipboard.</h2>
+
+     <h2>Don't have Venmo? Use the below button to donate with PayPal. Use the message you've already copied to your clipboard, when prompted (see the screenshot). You may have to go through some annoying captcha on mobile.</h2>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="background-color: inherit">
+      <input type="hidden" name="cmd" value="_donations" />
+      <input type="hidden" name="business" value="6R67F98LS379E" />
+      <input type="hidden" name="item_name" value="Black Lives Matter Curtis Einsmann Match" />
+      <input type="hidden" name="currency_code" value="USD" />
+      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="Donate to Black Lives Matter Curtis Einsmann Match via PayPal" alt="Donate with PayPal button" style="height: 50px" />
+      <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+    </form>
+
+    <img src="/assets/images/donate-paypal-blm.png" style="width: 60%;" />
+
+  </div> <!-- step-3 -->
 </div>
+</p>
 
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="blm" name="organization" value="Black Lives Matter" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://blacklivesmatter.com/" target="_blank">Black Lives Matter</a>
-<label for="blm">
-</label>
+<div style="padding-top: 5px; padding-bottom: 5px;">
+<button id="prev-button" type="button" class="btn btn-primary" onclick="updateState('prev')" disabled="">
+  Previous
+</button>
+<button id="next-button" type="button" class="btn btn-success" onclick="updateState('next');">
+  Next
+</button>
 </div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="brennancenter" name="organization" value="Brennan Center for Justice" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.brennancenter.org/" target="_blank">Brennan Center for Justice</a>
-<label for="brennancenter">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="eji" name="organization" value="Equal Justice Initiative" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://eji.org/" target="_blank">Equal Justice Initiative</a>
-<label for="eji">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="lawyerscommittee" name="organization" value="Lawyers’ Committee for Civil Rights Under Law" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.lawyerscommittee.org/" target="_blank">Lawyers’ Committee for Civil Rights Under Law</a>
-<label for="lawyerscommittee">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="naacp" name="organization" value="NAACP" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.naacp.org/" target="_blank">NAACP</a>
-<label for="naacp">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="nationalbar" name="organization" value="National Bar Association" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.nationalbar.org/" target="_blank">National Bar Association</a>
-<label for="nationalbar">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="nmaahc" name="organization" value="National Museum of African American History and Culture" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://nmaahc.si.edu/" target="_blank">National Museum of African American History and Culture</a>
-<label for="nmaahc">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="nul" name="organization" value="National Urban League" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://nul.org/" target="_blank">National Urban League</a>
-<label for="nul">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="tmcf" name="organization" value="Thurgood Marshall College Fund" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.tmcf.org/" target="_blank">Thurgood Marshall College Fund</a>
-<label for="tmcf">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="uncf" name="organization" value="UNCF (United Negro College Fund)" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://uncf.org/" target="_blank">UNCF (United Negro College Fund)</a>
-<label for="uncf">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="yearup" name="organization" value="Year Up" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<a href="https://www.yearup.org/" target="_blank">Year Up</a>
-<label for="yearup">
-</label>
-</div>
-
-<div style="white-space:nowrap; padding-left: 20px">
-<input type="radio" id="all" name="organization" value="All of the above (equal split)" onclick="
-  let textarea = document.getElementById('donation-prompt'); 
-  let radioValue = this.value;
-  let instaName = document.getElementById('insta-name').value;
-  textarea.value = 'Please send my donation to ' + radioValue + '. Please send the receipt to instagram/name ' + instaName + '.'" />
-<strong>All of the above (equal split)</strong>
-<label for="all">
-</label>
-</div>
-
-<h2 id="step-2-enter-your-instagram-or-just-your-name-this-is-so-i-can-send-you-a-receipt">Step 2: Enter your Instagram, or just your name. This is so I can send you a receipt.</h2>
-<p><input type="text" id="insta-name" placeholder="Instagram/Name" style="width: 50%;" oninput="   let textarea = document.getElementById('donation-prompt');   let orgs = document.getElementsByName('organization');   orgs = Array.prototype.slice.call(orgs);   let selectedOrg = orgs.find(org =&gt; org.checked);   textarea.value = 'Please send my donation to ' + ((typeof selectedOrg === 'undefined') ? 'All of the above (equal split)' : selectedOrg.value) + '. Please send the receipt to instagram/name ' + this.value + '.';   console.log('after value');" /></p>
-
-<h2 id="step-3-copy-this-message-to-your-clipboard">Step 3: Copy this message to your clipboard!</h2>
-
-<p><button onclick="var copyText = document.getElementById('donation-prompt');copyText.select();copyText.setSelectionRange(0, 99999);document.execCommand('copy');document.getElementById('info-copied-span').style.display='';">Copy message to clipboard!</button> <span id="info-copied-span" style="display: none">Copied!</span></p>
-
-<textarea readonly="" id="donation-prompt" rows="2" cols="50">Please send my donation to (org). Please send the receipt to instagram/name (insta).</textarea>
-
-<h2 id="step-4-click-below-to-donate-via-paypal-credit-or-debit--paste-the-above-message-when-prompted">Step 4: Click below to donate via PayPal, Credit, or Debit.  Paste the above message when prompted.</h2>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="background-color: inherit">
-<input type="hidden" name="cmd" value="_donations" />
-<input type="hidden" name="business" value="6R67F98LS379E" />
-<input type="hidden" name="item_name" value="Black Lives Matter Curtis Einsmann Match" />
-<input type="hidden" name="currency_code" value="USD" />
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="Donate to Black Lives Matter Curtis Einsmann Match via PayPal" alt="Donate with PayPal button" style="height: 50px" />
-<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
-</form>
-
-<h2 id="prefer-venmo-venmo-curtis-einsmann-using-the-above-message-instead">Prefer Venmo? Venmo @Curtis-Einsmann using the above message instead.</h2>
-
-<p><input type="text" value="@Curtis-Einsmann" id="venmo-input" readonly="" />
-<button onclick="var copyTexty = document.getElementById('venmo-input');copyTexty.select();copyTexty.setSelectionRange(0, 99999);document.execCommand('copy');document.getElementById('venmo-copied-span').style.display='';">Copy @Curtis-Einsmann to clipboard!</button> <span id="venmo-copied-span" style="display: none">Copied!</span></p>
-
-<p><strong><em>Receipt will be sent to you within 72 hours of your submission.  Thanks for your donation!</em></strong></p>
 
         
       </section>
