@@ -15,20 +15,21 @@ function updateInstaSlashName(theTypedName) {
 
 function updateDonationPromptContent() {
 	donationPromptContent = 'Please send my donation to ' + 
-		chosenOrganization + '. Please send the receipt to instagram/name ' + 
+		chosenOrganization + '. Please send the receipt to ' + 
 		instaSlashName + '.'
 	let textarea = document.getElementById('donation-prompt'); 
 	textarea.value = donationPromptContent;
 }
 
 function updateState(buttonType) {
+	document.getElementById('info-copied-span').style.display = 'none';
     if (buttonType === 'next') {
     	state += 1;
     }
     if (buttonType === 'prev') {
     	state -= 1;
     }
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
     	console.log(`State: ${state}`);
     	console.log(`i: ${i}`);
     	if (i === state) {
@@ -37,7 +38,7 @@ function updateState(buttonType) {
     	}
     	document.getElementById(`step-${i}`).style.display = 'none';
     }
-    if (state === 3) {
+    if (state === 4) {
     	document.getElementById('next-button').disabled = true;
     } else {
     	document.getElementById('next-button').disabled = false;

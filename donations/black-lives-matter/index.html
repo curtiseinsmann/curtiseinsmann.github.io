@@ -426,14 +426,20 @@
     <button onclick="copyPromptToClipboard();">Copy message to clipboard!</button> 
     <span id="info-copied-span" style="display: none">Copied!</span>
 
-    <textarea readonly="" id="donation-prompt" rows="2" cols="50">Please send my donation to (org). Please send the receipt to instagram/name (insta).</textarea>
+    <textarea readonly="" id="donation-prompt" rows="3" cols="50">Please send my donation to (org). Please send the receipt to (insta).</textarea>
   </div> <!-- step-2 -->
 
   <div id="step-3" style="display: none">
 
-     <h2>Open <a href="https://venmo.com" target="_blank">Venmo</a> and send your donation to <strong>@Curtis-Einsmann</strong>. Use the message you've already copied to your clipboard.</h2>
+    <h2>Open <a href="https://venmo.com" target="_blank">Venmo</a> and send your donation to <strong>@Curtis-Einsmann</strong>. Use the message you've already copied to your clipboard.</h2>
 
-     <h2>Don't have Venmo? Use the below button to donate with PayPal. Use the message you've already copied to your clipboard, when prompted (see the screenshot). You may have to go through some annoying captcha on mobile.</h2>
+    If you <strong>don't</strong> have Venmo, click Next.
+
+  </div> <!-- step-3 -->
+
+  <div id="step-4" style="display: none">
+
+    <h2>Don't have Venmo? Use the below button to donate with PayPal. Use the message you've already copied to your clipboard, when prompted (see the screenshot). You may have to go through some annoying captcha on mobile.</h2>
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="background-color: inherit">
       <input type="hidden" name="cmd" value="_donations" />
@@ -445,8 +451,8 @@
     </form>
 
     <img src="/assets/images/donate-paypal-blm.png" style="width: 60%;" />
-
-  </div> <!-- step-3 -->
+  </div> <!-- step 4 -->
+  
 </div>
 </p>
 
