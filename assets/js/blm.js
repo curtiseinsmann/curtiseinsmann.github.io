@@ -48,6 +48,8 @@ function updateState(buttonType) {
     } else {
     	document.getElementById('prev-button').disabled = false;
     }
+
+    document.getElementById(`step-${state}`).scrollIntoView();
 }
 
 function copyPromptToClipboard() {
