@@ -39,15 +39,15 @@ function updateState(buttonType) {
     	document.getElementById(`step-${i}`).style.display = 'none';
     }
     if (state === 4) {
-    	document.getElementById('next-button').disabled = true;
+    	document.getElementById('next-button').style.display = 'none';
     } else {
-    	document.getElementById('next-button').disabled = false;
+    	document.getElementById('next-button').style.display = '';
     }
 
     if (state === 0) {
-    	document.getElementById('prev-button').disabled = true;
+    	document.getElementById('prev-button').style.display = 'none';
     } else {
-    	document.getElementById('prev-button').disabled = false;
+    	document.getElementById('prev-button').style.display = '';
     }
 
     document.getElementById(`step-${state}`).scrollIntoView();
